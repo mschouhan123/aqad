@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
-import { getDBConnection, createTable, getUsers, insertUser, updateUser, deleteUser } from '../database/Database';
+import { getDBConnection, createTable, getUsers, insertUser, updateUser, deleteUser } from '../../database/Database';
+import Header from '../component/Header';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const [db, setDb] = useState(null);
   const [users, setUsers] = useState([]);
   const [name, setName] = useState('');
@@ -57,6 +58,8 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Header isDrawer={true} navigation={navigation}/>
+
       <Text style={styles.header}>SQLite Example</Text>
       <TextInput
         placeholder="Name"
@@ -94,7 +97,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    // padding: 16,
   },
   header: {
     fontSize: 24,
