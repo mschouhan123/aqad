@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
-import { getDBConnection, createTable, getUsers, insertUser, updateUser, deleteUser } from '../../database/Database';
+import { getDBConnection, createTable, getUsers, insertUser, updateUser, deleteUser } from '../../database/DatabaseUsers';
 import Header from '../component/Header';
 
 const HomeScreen = ({navigation}) => {
