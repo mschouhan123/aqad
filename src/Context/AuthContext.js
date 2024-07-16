@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../../firebase/firebase.config';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
 const AuthContext = createContext();
 
@@ -23,7 +22,7 @@ export const AuthProvider = ({ children }) => {
           setInitialRoute('Login');
         }
       } catch (error) {
-        console.error("Error loading user data from AsyncStorage: ", error);
+        // console.error("Error loading user data from AsyncStorage: ", error);
       } finally {
         setLoading(false);
       }
@@ -40,7 +39,7 @@ export const AuthProvider = ({ children }) => {
       setInitialRoute('HomeDrawer');
       return userCredential.user;
     } catch (error) {
-      console.error("Error logging in: ", error);
+      // console.error("Error logging in: ", error);
       throw error;
     }
   };
@@ -54,7 +53,7 @@ export const AuthProvider = ({ children }) => {
       setInitialRoute('Login');
       return userCredential.user;
     } catch (error) {
-      console.error("Error signing up: ", error);
+      // console.error("Error signing up: ", error);
       throw error;
     }
   };
@@ -66,13 +65,27 @@ export const AuthProvider = ({ children }) => {
       setInitialRoute('Login');
       // navigation.navigate('Login'); 
     } catch (error) {
-      console.error("Error logging out: ", error);
+      // console.error("Error logging out: ", error);
+      throw error;
+    }
+  };
+
+  const updateUserDetails = async (displayName) => {
+    try {
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, { displayName });
+        const updatedUser = { ...auth.currentUser, displayName };
+        await AsyncStorage.setItem('userData', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+      }
+    } catch (error) {
+      // console.error('Error updating user details: ', error);
       throw error;
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout, initialRoute }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout, initialRoute,updateUserDetails }}>
       {children}
     </AuthContext.Provider>
   );

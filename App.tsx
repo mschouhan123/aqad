@@ -214,6 +214,7 @@ import ContactScreen from './src/screens/ContactScreen';
 import DashboardScreen from './src/screens/DashboardScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import SignupListScreen from './src/screens/SignupListScreen';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
@@ -245,7 +246,7 @@ function AuthenticatedNavigator() {
       <Drawer.Screen name="GraphDrawer" component={GraphDrawerNavigator} />
       <Drawer.Screen name="ContactDrawer" component={ContactDrawerNavigator} />
       <Drawer.Screen name="DashboardDrawer" component={DashboardScreen} />
-      <Drawer.Screen name="ProfileDrawer" component={ProfileScreen} />
+      <Drawer.Screen name="ProfileDrawer" component={ProfileDrawerNavigator} />
       <Drawer.Screen name="SignupListDrawer" component={SignupListScreen} />
     </Drawer.Navigator>
   );
@@ -253,7 +254,13 @@ function AuthenticatedNavigator() {
 
 function HomeDrawerNavigator() {
   return (
-    <Tab.Navigator initialRouteName="HomeTab" screenOptions={{ showLabel: false, headerShown: false }}>
+     <Tab.Navigator
+      initialRouteName="HomeTab"
+      screenOptions={{
+        tabBarShowLabel: false, // Hide tab bar labels
+        headerShown: false, // Hide headers within tabs (if applicable)
+      }}
+    >
       <Tab.Screen
         name="HomeTab"
         component={HomeScreen}
@@ -279,7 +286,7 @@ function HomeDrawerNavigator() {
 
 function GraphDrawerNavigator() {
   return (
-    <Tab.Navigator initialRouteName="GraphTab" screenOptions={{ showLabel: false, headerShown: false }}>
+    <Tab.Navigator initialRouteName="GraphTab" screenOptions={{ tabBarShowLabel: false, headerShown: false }}>
       <Tab.Screen
         name="GraphTab"
         component={GraphScreen}
@@ -305,21 +312,48 @@ function GraphDrawerNavigator() {
 
 function ContactDrawerNavigator() {
   return (
-    <Tab.Navigator initialRouteName="ContactTab" screenOptions={{ showLabel: false, headerShown: false }}>
+    <Tab.Navigator initialRouteName="ContactTab" screenOptions={{ tabBarShowLabel: false, headerShown: false }}>
       <Tab.Screen
         name="ContactTab"
         component={ContactScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <View style={{ alignItems: 'center' }}>
-              <Image
+              {/* <Image
                 source={images.contact}
                 style={{
                   width: 24,
                   height: 24,
                   tintColor: focused ? '#075296' : '#9AA1AE',
                 }}
-              />
+              /> */}
+              <Text style={{ color: focused ? '#075296' : '#9AA1AE', fontSize: 12 }}>Contact</Text>
+            </View>
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+
+function ProfileDrawerNavigator() {
+  return (
+    <Tab.Navigator initialRouteName="ProfileTab" screenOptions={{ tabBarShowLabel: false, headerShown: false }}>
+      <Tab.Screen
+        name="ProfileTab"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={{ alignItems: 'center' }}>
+              {/* <Image
+                source={images.contact}
+                style={{
+                  width: 24,
+                  height: 24,
+                  tintColor: focused ? '#075296' : '#9AA1AE',
+                }}
+              /> */}
               <Text style={{ color: focused ? '#075296' : '#9AA1AE', fontSize: 12 }}>Contact</Text>
             </View>
           ),
