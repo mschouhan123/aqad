@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StatusBar, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StatusBar, StyleSheet, ScrollView, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import Animated, { FadeInUp, FadeInDown } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import { useToast } from 'react-native-toast-notifications';
@@ -59,74 +59,75 @@ export default function RegisterScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <StatusBar barStyle="light" />
       <Image style={styles.backgroundImage} source={require('../assets/images/background.png')} />
 
-      <View style={styles.logoContainer}>
+      {/* <View style={styles.lightImagesContainer}>
         <Animated.Image style={styles.lightImageLarge} entering={FadeInUp.delay(200).duration(1000).springify().damping(3)} source={require('../assets/images/light.png')} />
         <Animated.Image style={styles.lightImageSmall} entering={FadeInUp.delay(400).duration(1000).springify().damping(3)} source={require('../assets/images/light.png')} />
-      </View>
+      </View> */}
 
-      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-        <View style={styles.formContainer}>
-          <View style={styles.titleContainer}>
-            <Animated.Text style={styles.titleText} entering={FadeInUp.duration(1000).springify()}>
-              SignUp
-            </Animated.Text>
-          </View>
+      <ScrollView contentContainerStyle={styles.formContainer}>
+        <View style={styles.headerContainer}>
+          <Animated.Text style={styles.headerText} entering={FadeInUp.duration(1000).springify()}>
+            SignUp
+          </Animated.Text>
+        </View>
 
-          <View style={styles.inputContainer}>
-            <Animated.View style={[styles.inputWrapper, styles.smallInputWrapper]} entering={FadeInDown.duration(1000).springify()}>
-              <TextInput
-                placeholder='Username'
-                placeholderTextColor={'gray'}
-                value={username}
-                onChangeText={setUsername}
-                style={styles.input}
-              />
-              {errors.username && <Text style={styles.errorText}>{errors.username}</Text>}
-            </Animated.View>
-            <Animated.View style={[styles.inputWrapper, styles.smallInputWrapper]} entering={FadeInDown.delay(200).duration(1000).springify()}>
-              <TextInput
-                placeholder='Email'
-                placeholderTextColor={'gray'}
-                value={email}
-                onChangeText={setEmail}
-                style={styles.input}
-              />
-              {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
-            </Animated.View>
-            <Animated.View style={[styles.inputWrapper, styles.smallInputWrapper]} entering={FadeInDown.delay(400).duration(1000).springify()}>
-              <TextInput
-                placeholder='Password'
-                placeholderTextColor={'gray'}
-                secureTextEntry
-                value={password}
-                onChangeText={setPassword}
-                style={styles.input}
-              />
-              {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
-            </Animated.View>
-            <Animated.View style={styles.buttonWrapper} entering={FadeInDown.delay(600).duration(1000).springify()}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={handleSignup}
-                disabled={isLoading}
-              >
-                {isLoading ? <ActivityIndicator color="white" /> : <Text style={styles.buttonText}>SignUp</Text>}
-              </TouchableOpacity>
-            </Animated.View>
-            <Animated.View style={styles.linkWrapper} entering={FadeInDown.delay(800).duration(1000).springify()}>
-              <Text>Already have an account? </Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={styles.linkText}>Login</Text>
-              </TouchableOpacity>
-            </Animated.View>
+        <View style={styles.inputContainer}>
+          <Animated.View style={[styles.inputWrapper, styles.smallInputWrapper]} entering={FadeInDown.duration(1000).springify()}>
+            <TextInput
+              placeholder='Username'
+              placeholderTextColor={'gray'}
+              value={username}
+              onChangeText={setUsername}
+              style={styles.input}
+            />
+            {errors.username && <Text style={styles.errorText}>{errors.username}</Text>}
+          </Animated.View>
+          <Animated.View style={[styles.inputWrapper, styles.smallInputWrapper]} entering={FadeInDown.delay(200).duration(1000).springify()}>
+            <TextInput
+              placeholder='Email'
+              placeholderTextColor={'gray'}
+              value={email}
+              onChangeText={setEmail}
+              style={styles.input}
+            />
+            {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+          </Animated.View>
+          <Animated.View style={[styles.inputWrapper, styles.smallInputWrapper]} entering={FadeInDown.delay(400).duration(1000).springify()}>
+            <TextInput
+              placeholder='Password'
+              placeholderTextColor={'gray'}
+              secureTextEntry
+              value={password}
+              onChangeText={setPassword}
+              style={styles.input}
+            />
+            {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+          </Animated.View>
+          <Animated.View style={styles.buttonContainer} entering={FadeInDown.delay(600).duration(1000).springify()}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleSignup}
+              disabled={isLoading}
+            >
+              {isLoading ? <ActivityIndicator color="white" /> : <Text style={styles.buttonText}>SignUp</Text>}
+            </TouchableOpacity>
+          </Animated.View>
+          <View style={styles.signupContainer}>
+            <Text>Already have an account? </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.signupText}>Login</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -135,92 +136,93 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  scrollViewContainer: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   backgroundImage: {
-    position: 'absolute',
-    height: '100%',
+    height: '80%',
     width: '100%',
+    position: 'absolute',
   },
-  logoContainer: {
+  lightImagesContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
     position: 'absolute',
+    top: 0,
   },
   lightImageLarge: {
-    height: 180, // Adjusted size for smaller visibility
-    width: 72, // Adjusted size for smaller visibility
+    height: 225,
+    position: 'relative',
+    top: '-39%',
+    width: 90,
   },
   lightImageSmall: {
-    height: 130, // Adjusted size for smaller visibility
-    width: 52, // Adjusted size for smaller visibility
+    position: 'relative',
+    // top: '-29%',
+    height: 160,
+    width: 65,
   },
   formContainer: {
-    width: '80%', // Adjusted width for better visibility
+    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 48,
+    paddingHorizontal: 20,
+    paddingTop: 50, // Adjust as needed for spacing from top
   },
-  titleContainer: {
+  headerContainer: {
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 10,
+    marginTop:30
   },
-  titleText: {
+  headerText: {
+    position: 'relative',
+    top: '-1%',
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 32, // Adjusted font size for smaller visibility
+    fontSize: 40,
   },
   inputContainer: {
-    padding: 16,
-    borderRadius: 16,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    marginTop: 32,
     width: '100%',
+    marginBottom: 10,
+    marginVertical:80
   },
   inputWrapper: {
-    marginBottom: 12,
+    marginBottom: 10,
   },
   smallInputWrapper: {
     width: '100%',
   },
   input: {
     height: 40,
-    paddingVertical: 0,
-    color: 'black',
-    fontSize: 16, // Adjusted font size for smaller visibility
-  },
-  buttonWrapper: {
-    width: '100%',
-    alignItems: 'center',
-    marginTop: 12,
-  },
-  button: {
-    backgroundColor: '#00B0FF',
-    paddingVertical: 15,
-    paddingHorizontal: 32,
-    borderRadius: 20,
-    alignItems: 'center',
-  },
-  buttonText: {
-    fontSize: 18, // Adjusted font size for smaller visibility
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  linkWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 16,
-  },
-  linkText: {
-    color: '#00B0FF',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginBottom: 10,
   },
   errorText: {
     color: 'red',
-    marginTop: 5,
-    fontSize: 12, // Adjusted font size for smaller visibility
+    marginBottom: 5,
+  },
+  buttonContainer: {
+    width: '100%',
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: '#38bdf8',
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  signupContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  signupText: {
+    color: '#0284c7',
+    fontWeight: 'bold',
   },
 });

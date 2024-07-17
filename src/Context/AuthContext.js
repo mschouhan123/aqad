@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [initialRoute, setInitialRoute] = useState('Splash');
-  // const navigation = useNavigation(); 
+  const [activeScreen, setActiveScreen] = useState('HomeDrawer');
 
   useEffect(() => {
     const loadUser = async () => {
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
           setInitialRoute('Login');
         }
       } catch (error) {
-        // console.error("Error loading user data from AsyncStorage: ", error);
+        console.error("Error loading user data from AsyncStorage: ", error);
       } finally {
         setLoading(false);
       }
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
       setInitialRoute('HomeDrawer');
       return userCredential.user;
     } catch (error) {
-      // console.error("Error logging in: ", error);
+      console.error("Error logging in: ", error);
       throw error;
     }
   };
@@ -49,11 +49,11 @@ export const AuthProvider = ({ children }) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(auth.currentUser, { displayName: username });
       await AsyncStorage.setItem('userData', JSON.stringify(userCredential.user));
-      setUser(null);  // Keep user as null after registration
+      setUser(null);
       setInitialRoute('Login');
       return userCredential.user;
     } catch (error) {
-      // console.error("Error signing up: ", error);
+      console.error("Error signing up: ", error);
       throw error;
     }
   };
@@ -63,9 +63,8 @@ export const AuthProvider = ({ children }) => {
       await AsyncStorage.removeItem('userData');
       setUser(null);
       setInitialRoute('Login');
-      // navigation.navigate('Login'); 
     } catch (error) {
-      // console.error("Error logging out: ", error);
+      console.error("Error logging out: ", error);
       throw error;
     }
   };
@@ -79,13 +78,13 @@ export const AuthProvider = ({ children }) => {
         setUser(updatedUser);
       }
     } catch (error) {
-      // console.error('Error updating user details: ', error);
+      console.error('Error updating user details: ', error);
       throw error;
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, signup, logout, initialRoute,updateUserDetails }}>
+    <AuthContext.Provider value={{ user, loading, login, signup, logout, initialRoute, updateUserDetails, activeScreen, setActiveScreen }}>
       {children}
     </AuthContext.Provider>
   );

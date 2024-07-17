@@ -1,75 +1,58 @@
-
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { DrawerActions, useNavigationState } from '@react-navigation/native';
+import { DrawerActions } from '@react-navigation/native';
 import { useAuth } from '../Context/AuthContext';
 
 const DrawerScreen = ({ navigation }) => {
-  const state = useNavigationState(state => state); // Ensure state is properly initialized
-
-  const { user, logout } = useAuth(); // Import logout function and user details from AuthContext
+  const { user, logout, activeScreen, setActiveScreen } = useAuth();
 
   const handleLogout = async () => {
     try {
-      await logout(); // Call logout function from AuthContext
-      // Navigate to Login screen after logout
+      await logout();
       navigation.navigate('Login');
     } catch (error) {
       console.error("Error logging out:", error);
-      // Handle error if needed
     }
+  };
+
+  const handleNavigation = (screenName) => {
+    setActiveScreen(screenName);
+    navigation.navigate(screenName);
+    navigation.dispatch(DrawerActions.closeDrawer());
   };
 
   return (
     <ScrollView style={styles.drawerContainer}>
       <View style={styles.drawerHeader}>
-        <Text style={styles.headerText}>Welcome <Text style={styles.highlightedText}>{user.displayName}</Text></Text>
+        <Text style={styles.headerText}>
+          Welcome <Text style={styles.highlightedText}>{user.displayName}</Text>
+        </Text>
         <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.closeDrawer())}>
           <Ionicons name="close" size={30} color="#000" />
         </TouchableOpacity>
       </View>
       <View style={styles.drawerContent}>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeDrawer')} style={styles.drawerItemContainer}>
-          <Text
-            style={[
-              styles.drawerItem,
-              state && state.routes[state.index].name === 'HomeDrawer' && styles.activeDrawerItem, // Check for state existence
-            ]}
-          >
+        <TouchableOpacity onPress={() => handleNavigation('HomeDrawer')} style={styles.drawerItemContainer}>
+          <Text style={[styles.drawerItem, activeScreen === 'HomeDrawer' && styles.activeDrawerItem]}>
             Home
           </Text>
         </TouchableOpacity>
         <View style={styles.horizontalLine} />
-        <TouchableOpacity onPress={() => navigation.navigate('GraphDrawer')} style={styles.drawerItemContainer}>
-          <Text
-            style={[
-              styles.drawerItem,
-              state && state.routes[state.index].name === 'GraphDrawer' && styles.activeDrawerItem, // Check for state existence
-            ]}
-          >
+        <TouchableOpacity onPress={() => handleNavigation('GraphDrawer')} style={styles.drawerItemContainer}>
+          <Text style={[styles.drawerItem, activeScreen === 'GraphDrawer' && styles.activeDrawerItem]}>
             Graph
           </Text>
         </TouchableOpacity>
         <View style={styles.horizontalLine} />
-        <TouchableOpacity onPress={() => navigation.navigate('ContactDrawer')} style={styles.drawerItemContainer}>
-          <Text
-            style={[
-              styles.drawerItem,
-              state && state.routes[state.index].name === 'ContactDrawer' && styles.activeDrawerItem, // Check for state existence
-            ]}
-          >
+        <TouchableOpacity onPress={() => handleNavigation('ContactDrawer')} style={styles.drawerItemContainer}>
+          <Text style={[styles.drawerItem, activeScreen === 'ContactDrawer' && styles.activeDrawerItem]}>
             Contact
           </Text>
         </TouchableOpacity>
         <View style={styles.horizontalLine} />
-        <TouchableOpacity onPress={() => navigation.navigate('ProfileDrawer')} style={styles.drawerItemContainer}>
-          <Text
-            style={[
-              styles.drawerItem,
-              state && state.routes[state.index].name === 'ProfileDrawer' && styles.activeDrawerItem, // Check for state existence
-            ]}
-          >
+        <TouchableOpacity onPress={() => handleNavigation('ProfileDrawer')} style={styles.drawerItemContainer}>
+          <Text style={[styles.drawerItem, activeScreen === 'ProfileDrawer' && styles.activeDrawerItem]}>
             Profile
           </Text>
         </TouchableOpacity>
@@ -85,12 +68,12 @@ const DrawerScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   drawerContainer: {
     flex: 1,
-    paddingTop: 24, // Adjusted paddingTop to reduce space
+    paddingTop: 24,
     paddingHorizontal: 16,
   },
   drawerHeader: {
     flexDirection: 'row',
-    justifyContent: 'space-between', // Align items with proper space
+    justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingBottom: 16,
@@ -103,7 +86,7 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   highlightedText: {
-    color: '#007AFF', // Highlighted color for user's name
+    color: '#007AFF',
   },
   drawerContent: {
     paddingTop: 16,
@@ -115,32 +98,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginRight: 8,
-    color: '#000', // Default text color
+    color: '#000',
   },
   activeDrawerItem: {
     color: '#007AFF',
   },
   horizontalLine: {
-    borderBottomColor: '#E5E5E5',
     borderBottomWidth: 1,
-    marginVertical: 8,
+    borderBottomColor: '#E5E5E5',
+    marginVertical: 16,
   },
   logoutButton: {
-    marginTop: 24,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#FF3B30',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: 'red',
     borderRadius: 8,
-    backgroundColor: '#FF3B30',
+    marginTop: 16,
   },
   logoutText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
+    color: '#fff',
   },
 });
 
 export default DrawerScreen;
-

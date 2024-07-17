@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StatusBar, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StatusBar, StyleSheet, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
 import Animated, { FadeInUp, FadeInDown } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import { useToast } from 'react-native-toast-notifications';
@@ -16,6 +16,10 @@ export default function LoginScreen() {
 
   const { login } = useAuth();
 
+
+
+
+  
   const validate = () => {
     let valid = true;
     let errors = {};
@@ -66,62 +70,60 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <StatusBar barStyle="light-content"/>
       <Image style={styles.backgroundImage} source={require('../assets/images/background.png')}/>
 
-      <View style={styles.lightImagesContainer}>
+      {/* <View style={styles.lightImagesContainer}>
         <Animated.Image entering={FadeInUp.delay(200).duration(1000).springify().damping(3)} style={styles.lightImageLarge} source={require('../assets/images/light.png')}/>
         <Animated.Image entering={FadeInUp.delay(400).duration(1000).springify().damping(3)} style={styles.lightImageSmall} source={require('../assets/images/light.png')}/>
-      </View>
+      </View> */}
 
-      <View style={styles.contentContainer}>
+      <View style={styles.formContainer}>
         <View style={styles.headerContainer}>
           <Animated.Text entering={FadeInUp.duration(1000).springify()} style={styles.headerText}>
             Login
           </Animated.Text>
         </View>
 
-        <View style={styles.formContainer}>
-          <Animated.View entering={FadeInDown.duration(1000).springify()} style={styles.inputContainer}>
-            <TextInput
-              placeholder='Email'
-              placeholderTextColor={'gray'}
-              value={email}
-              onChangeText={setEmail}
-              style={styles.input}
-            />
-            {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
-          </Animated.View>
-          <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} style={styles.inputContainer}>
-            <TextInput
-              placeholder='Password'
-              placeholderTextColor={'gray'}
-              secureTextEntry
-              value={password}
-              onChangeText={setPassword}
-              style={styles.input}
-            />
-            {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
-          </Animated.View>
-          <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()} style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleLogin}
-              disabled={isLoading}
-            >
-              {isLoading ? <ActivityIndicator color="white" /> : <Text style={styles.buttonText}>Login</Text>}
-            </TouchableOpacity>
-          </Animated.View>
-          <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} style={styles.signupContainer}>
-            <Text>Don't have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-              <Text style={styles.signupText}>SignUp</Text>
-            </TouchableOpacity>
-          </Animated.View>
-        </View>
+        <Animated.View entering={FadeInDown.duration(1000).springify()} style={styles.inputContainer}>
+          <TextInput
+            placeholder='Email'
+            placeholderTextColor={'gray'}
+            value={email}
+            onChangeText={setEmail}
+            style={styles.input}
+          />
+          {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} style={styles.inputContainer}>
+          <TextInput
+            placeholder='Password'
+            placeholderTextColor={'gray'}
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+            style={styles.input}
+          />
+          {errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()} style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleLogin}
+            disabled={isLoading}
+          >
+            {isLoading ? <ActivityIndicator color="white" /> : <Text style={styles.buttonText}>Login</Text>}
+          </TouchableOpacity>
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} style={styles.signupContainer}>
+          <Text>Don't have an account? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <Text style={styles.signupText}>SignUp</Text>
+          </TouchableOpacity>
+        </Animated.View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   backgroundImage: {
-    height: '100%',
+    height: '80%',
     width: '100%',
     position: 'absolute',
   },
@@ -140,69 +142,78 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: '100%',
     position: 'absolute',
+    // height: '10',
+    top: 0,
   },
   lightImageLarge: {
     height: 225,
+    position:'relative',
+    top:'-39%',
     width: 90,
   },
   lightImageSmall: {
+    position:'relative',
+    top:'-29%',
     height: 160,
     width: 65,
   },
-  contentContainer: {
+  formContainer: {
     flex: 1,
-    justifyContent: 'space-around',
-    paddingTop: 40,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 50, // Adjust as needed for spacing from top
   },
   headerContainer: {
     alignItems: 'center',
+    marginBottom: 30,
+    marginTop:30
   },
   headerText: {
+    position:'relative',
+    top:'-85%',
     color: 'white',
     fontWeight: 'bold',
-    letterSpacing: 1,
     fontSize: 40,
-    marginTop: 100,
-  },
-  formContainer: {
-    alignItems: 'center',
-    marginHorizontal: 16,
   },
   inputContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    padding: 16,
-    borderRadius: 16,
     width: '100%',
-    marginBottom: 12,
+    marginBottom: 10,
+    marginTop: 10,
   },
   input: {
     height: 40,
-    paddingVertical: 0,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginBottom: 10,
   },
   errorText: {
     color: 'red',
+    marginBottom: 5,
   },
   buttonContainer: {
     width: '100%',
+    marginTop: 20,
   },
   button: {
     backgroundColor: '#38bdf8',
-    padding: 16,
-    borderRadius: 16,
-    marginBottom: 12,
+    padding: 15,
+    borderRadius: 5,
     alignItems: 'center',
-    justifyContent: 'center',
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
     color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   signupContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    marginTop: 10,
   },
   signupText: {
     color: '#0284c7',
+    fontWeight: 'bold',
   },
 });
