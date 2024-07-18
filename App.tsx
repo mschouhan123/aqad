@@ -13,7 +13,6 @@ import RegisterScreen from './src/screens/RegisterScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import DetailsScreen from './src/screens/GraphScreen';
 import ContactScreen from './src/screens/ContactScreen';
-import DashboardScreen from './src/screens/DashboardScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import SignupListScreen from './src/screens/SignupListScreen';
 import { images } from './src/assets/imageUri';
@@ -69,7 +68,6 @@ const DrawerNavigator = () => {
       <Drawer.Screen name="ContactDrawer">
         {props => <TabNavigator {...props} initialRouteName="ContactTab" />}
       </Drawer.Screen>
-      <Drawer.Screen name="DashboardDrawer" component={DashboardScreen} />
       <Drawer.Screen name="ProfileDrawer">
         {props => <TabNavigator {...props} initialRouteName="ProfileTab" />}
       </Drawer.Screen>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import {Alert, View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 
 export default function ContactScreen({ navigation }) {
   const [name, setName] = useState('');
@@ -31,11 +31,26 @@ export default function ContactScreen({ navigation }) {
     return valid;
   };
 
+
   const handleSubmit = () => {
     if (!validate()) return;
-
-    // Handle form submission
-    alert('Contact information submitted successfully');
+  
+    Alert.alert(
+      'Contact Information',
+      'Contact information submitted successfully',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { 
+          text: 'OK', 
+          onPress: () => { navigation.navigate("HomeTab"); } 
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   return (

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet ,KeyboardAvoidingView ,TouchableOpacity} from 'react-native';
 import { getDBConnection, createTable, getUsers, insertUser, updateUser, deleteUser} from '../../database/DatabaseUsers';
-import Header from '../component/Header';
-import CustomDrawerContent from '../components/CustomDrawerContent';
 
 
 const HomeScreen = ({ navigation }) => {
@@ -92,6 +90,7 @@ const HomeScreen = ({ navigation }) => {
       keyboardVerticalOffset={100}
     >
       <Text style={styles.header}>User Form</Text>
+      <Text style={styles.subHeading}>This is to demonstrate the add user functionality using the local database</Text>
       <FlatList
         ListHeaderComponent={
           <View style={styles.formContainer}>
@@ -109,10 +108,14 @@ const HomeScreen = ({ navigation }) => {
               keyboardType="numeric"
             />
             {editingUser ? (
-              <Button title="Update User" onPress={handleUpdateUser} />
-            ) : (
-              <Button title="Add User" onPress={handleAddUser} />
-            )}
+                <TouchableOpacity style={styles.buttonSubmit} onPress={handleUpdateUser}>
+                <Text style={styles.buttonText}>Update User</Text>
+              </TouchableOpacity>
+              ) : (
+                <TouchableOpacity style={styles.buttonSubmit} onPress={handleAddUser}>
+            <Text style={styles.buttonText}>Add User</Text>
+          </TouchableOpacity>
+           )}
           </View>
         }
         data={users}
@@ -192,6 +195,21 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     textAlign: 'center',
+  },
+  buttonSubmit: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#007BFF',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  subHeading: {
+    fontSize: 18,
+    marginBottom: 10,
+    color: '#333',
+    marginLeft: 10
   },
 });
 

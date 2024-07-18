@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Image } from 'react-native';
 import { DrawerActions } from '@react-navigation/native';
 import { useAuth } from '../Context/AuthContext';
 
@@ -29,7 +28,7 @@ const DrawerScreen = ({ navigation }) => {
           Welcome <Text style={styles.highlightedText}>{user.displayName}</Text>
         </Text>
         <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.closeDrawer())}>
-          <Ionicons name="close" size={30} color="#000" />
+           <Text style={{backgroundColor: 'grey', padding: 5, borderRadius: 5}}>Close</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.drawerContent}>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Dimensions, StyleSheet, TextInput, Button, FlatList, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
-import Header from '../component/Header';
 import { getDBConnection, createTable, getUsers, insertUser, updateUser, deleteUser } from '../../database/DatabaseGraph';
 
 const DetailsScreen = ({ navigation }) => {
@@ -118,7 +117,8 @@ const DetailsScreen = ({ navigation }) => {
       <FlatList
         ListHeaderComponent={
           <>
-            <Text style={styles.header}>Details Screen</Text>
+            <Text style={styles.header}>Display Graph</Text>
+            <Text style={styles.subHeading}>Include the month and unit data to display the graph using the local database.</Text>
             <View style={styles.chartContainer}>
               {xaxix.length > 0 && yaxix.length > 0 && (
                 <ScrollView horizontal>
@@ -149,9 +149,13 @@ const DetailsScreen = ({ navigation }) => {
                 keyboardType="numeric"
               />
               {editingGraph ? (
-                <Button title="Update User" onPress={handleUpdateUser} />
+                <TouchableOpacity style={styles.buttonSubmit} onPress={handleUpdateUser}>
+                <Text style={styles.buttonText}>Update Graph Unit</Text>
+              </TouchableOpacity>
               ) : (
-                <Button title="Add User" onPress={handleAddUser} />
+                <TouchableOpacity style={styles.buttonSubmit} onPress={handleAddUser}>
+            <Text style={styles.buttonText}>Add Graph Unit</Text>
+          </TouchableOpacity>
               )}
             </View>
           </>
@@ -177,6 +181,11 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginBottom: 5,
+    color: '#333',
+  },
+ subHeading: {
+    fontSize: 18,
     marginBottom: 16,
     color: '#333',
   },
@@ -238,6 +247,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
+  buttonSubmit: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#007BFF',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  }
 });
 
 export default DetailsScreen;

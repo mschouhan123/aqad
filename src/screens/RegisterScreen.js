@@ -66,10 +66,10 @@ export default function RegisterScreen() {
       <StatusBar barStyle="light" />
       <Image style={styles.backgroundImage} source={require('../assets/images/background.png')} />
 
-      {/* <View style={styles.lightImagesContainer}>
+      <View style={styles.lightImagesContainer}>
         <Animated.Image style={styles.lightImageLarge} entering={FadeInUp.delay(200).duration(1000).springify().damping(3)} source={require('../assets/images/light.png')} />
         <Animated.Image style={styles.lightImageSmall} entering={FadeInUp.delay(400).duration(1000).springify().damping(3)} source={require('../assets/images/light.png')} />
-      </View> */}
+      </View>
 
       <ScrollView contentContainerStyle={styles.formContainer}>
         <View style={styles.headerContainer}>
@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
     height: '80%',
     width: '100%',
     position: 'absolute',
+    tintColor: "#f27b21"
   },
   lightImagesContainer: {
     flexDirection: 'row',
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: 'center',
     marginBottom: 10,
-    marginTop:30
+    marginTop:0
   },
   headerText: {
     position: 'relative',
@@ -206,10 +207,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    backgroundColor: '#38bdf8',
+    backgroundColor: '#f27b21',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
+
   },
   buttonText: {
     color: 'white',

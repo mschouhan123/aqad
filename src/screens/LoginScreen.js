@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     height: '80%',
     width: '100%',
     position: 'absolute',
+    tintColor: "#f27b21"
   },
   lightImagesContainer: {
     flexDirection: 'row',
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: 'center',
     marginBottom: 30,
-    marginTop:30
+    marginTop:0
   },
   headerText: {
     position:'relative',
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    backgroundColor: '#38bdf8',
+    backgroundColor: '#f27b21',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
