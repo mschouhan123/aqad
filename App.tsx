@@ -72,6 +72,7 @@ const DrawerNavigator = () => {
         {props => <TabNavigator {...props} initialRouteName="ProfileTab" />}
       </Drawer.Screen>
       <Drawer.Screen name="SignupListDrawer" component={SignupListScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
     </Drawer.Navigator>
   );
 };

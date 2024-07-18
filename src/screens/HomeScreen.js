@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet ,KeyboardAvoidingView ,TouchableOpacity} from 'react-native';
+import {BackHandler, View, Text, TextInput, FlatList, StyleSheet ,KeyboardAvoidingView ,TouchableOpacity} from 'react-native';
 import { getDBConnection, createTable, getUsers, insertUser, updateUser, deleteUser} from '../../database/DatabaseUsers';
+import { useToast } from 'react-native-toast-notifications';
 
 
 const HomeScreen = ({ navigation }) => {
@@ -9,6 +10,28 @@ const HomeScreen = ({ navigation }) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [editingUser, setEditingUser] = useState(null);
+  const [backPressCount, setBackPressCount] = useState(0);
+  const toast = useToast();
+  
+  useEffect(() => {
+    const backAction = () => {
+      if (backPressCount === 1) {
+        BackHandler.exitApp();
+      } else {
+        setBackPressCount(1);
+        toast.show('Press back again to exit ', { type: 'info',duration: 1000 });
+
+        setTimeout(() => {
+          setBackPressCount(0);
+        }, 1000); // Reset count after 2 seconds
+      }
+      return true; // Prevent default back action
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
+  }, [backPressCount]);
 
   useEffect(() => {
     const initializeDatabase = async () => {
